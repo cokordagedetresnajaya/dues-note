@@ -137,4 +137,27 @@ class Organizations with ChangeNotifier {
       }
     } catch (e) {}
   }
+
+  Future<void> deleteOrganization(String id) async {
+    final url = Uri.https(
+      Core.firebaseBaseUrl,
+      '/organizations/${id}.json',
+      {'auth': '$authToken'},
+    );
+
+    final index = _items.indexWhere((organization) => organization.id == id);
+
+    Organization? organization = _items[index];
+    _items.removeAt(index);
+    notifyListeners();
+
+    final response = await http.delete(url);
+
+    if (response.statusCode >= 400) {
+      _items.insert(index, organization);
+      notifyListeners();
+      throw HttpException('Could not deleted organization');
+    }
+    organization = null;
+  }
 }

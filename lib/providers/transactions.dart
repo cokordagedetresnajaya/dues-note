@@ -269,8 +269,6 @@ class Transactions with ChangeNotifier {
       (a, b) => a.date.compareTo(b.date),
     );
 
-    print('Hello');
-
     final Workbook workbook = new Workbook();
     final Worksheet sheet = workbook.worksheets[0];
 

@@ -24,8 +24,10 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
   var _isInit = false;
   var _isLoading = false;
   var _isSearching = false;
+  var _isEditMode = false;
   List<Organization> _searchResult = [];
   List<Organization> _userOrganizations = [];
+  String? _selectedOrganizationId;
 
   @override
   void didChangeDependencies() {
@@ -85,6 +87,55 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
     });
   }
 
+  void setEditMode(bool value) {
+    setState(() {
+      _isEditMode = value;
+    });
+  }
+
+  void setSelectedOrganization(String id) {
+    setState(() {
+      _selectedOrganizationId = id;
+    });
+  }
+
+  Future<void> deleteOrganization() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await Provider.of<Organizations>(
+        context,
+        listen: false,
+      ).deleteOrganization(
+        _selectedOrganizationId!,
+      );
+
+      setState(() {
+        _isEditMode = false;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isEditMode = false;
+        _isLoading = false;
+      });
+
+      showDialog(
+        context: context,
+        builder: (ctx) => SingleButtonAlert(
+          title: 'An error occured',
+          content: e.toString(),
+          buttonText: 'Okay',
+          onPressed: () {
+            Navigator.of(ctx).pop();
+          },
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _userOrganizations = Provider.of<Organizations>(context).items;
@@ -127,63 +178,78 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
             ? []
             : _isSearching
                 ? []
-                : [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _isSearching = true;
-                          _searchResult = _userOrganizations;
-                        });
-                      },
-                      icon: const Icon(Icons.search),
-                      color: AppColors.primary,
-                    ),
-                    PopupMenuButton(
-                      icon: const Icon(Icons.more_vert),
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Text(
-                            'Logout',
-                            style: Theme.of(context).textTheme.labelMedium,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 16,
-                          ),
-                          value: 0,
+                : _isEditMode
+                    ? [
+                        IconButton(
+                          icon: const Icon(Icons.edit_note_sharp),
+                          color: AppColors.primary,
+                          onPressed: () {
+                            print('Hello');
+                          },
                         ),
-                      ],
-                      onSelected: (result) async {
-                        if (result == 0) {
-                          var selectedValue = await showDialog(
-                            context: context,
-                            builder: (ctx) => TwoButtonAlert(
-                              title: 'Warning',
-                              content: 'Are you sure you want to log out?',
-                              buttonText1: 'Yes',
-                              buttonText2: 'No',
-                              onPressed1: () {
-                                Navigator.pop(ctx, true);
-                              },
-                              onPressed2: () {
-                                Navigator.pop(ctx, false);
-                              },
-                            ),
-                          );
-
-                          if (selectedValue == true) {
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          color: AppColors.red,
+                          onPressed: deleteOrganization,
+                        )
+                      ]
+                    : [
+                        IconButton(
+                          onPressed: () {
                             setState(() {
-                              _isLoading = true;
+                              _isSearching = true;
+                              _searchResult = _userOrganizations;
                             });
-                            await Provider.of<Auth>(
-                              context,
-                              listen: false,
-                            ).logout();
-                          }
-                        }
-                      },
-                    )
-                  ],
+                          },
+                          icon: const Icon(Icons.search),
+                          color: AppColors.primary,
+                        ),
+                        PopupMenuButton(
+                          icon: const Icon(Icons.more_vert),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              child: Text(
+                                'Logout',
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8,
+                                horizontal: 16,
+                              ),
+                              value: 0,
+                            ),
+                          ],
+                          onSelected: (result) async {
+                            if (result == 0) {
+                              var selectedValue = await showDialog(
+                                context: context,
+                                builder: (ctx) => TwoButtonAlert(
+                                  title: 'Warning',
+                                  content: 'Are you sure you want to log out?',
+                                  buttonText1: 'Yes',
+                                  buttonText2: 'No',
+                                  onPressed1: () {
+                                    Navigator.pop(ctx, true);
+                                  },
+                                  onPressed2: () {
+                                    Navigator.pop(ctx, false);
+                                  },
+                                ),
+                              );
+
+                              if (selectedValue == true) {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                await Provider.of<Auth>(
+                                  context,
+                                  listen: false,
+                                ).logout();
+                              }
+                            }
+                          },
+                        )
+                      ],
         backgroundColor: AppColors.background,
         elevation: 0,
       ),
@@ -192,17 +258,20 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
           : _userOrganizations.isEmpty
               ? EmptyData('You don\'t have any organization yet')
               : _isSearching
-                  ? (_searchResult.length <= 0
+                  ? (_searchResult.isEmpty
                       ? SearchNotFound('Organization not found')
                       : ListView.builder(
                           itemCount: _searchResult.length,
                           itemBuilder: (ctx, i) {
                             return OrganizationItem(
-                                _searchResult[i].id,
-                                _searchResult[i].name,
-                                _searchResult[i].category,
-                                _searchResult[i].numberOfMembers,
-                                resetScreen);
+                              _searchResult[i].id,
+                              _searchResult[i].name,
+                              _searchResult[i].category,
+                              _searchResult[i].numberOfMembers,
+                              resetScreen,
+                              setEditMode,
+                              setSelectedOrganization,
+                            );
                           },
                         ))
                   : ListView.builder(
@@ -214,6 +283,8 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
                           _userOrganizations[i].category,
                           _userOrganizations[i].numberOfMembers,
                           resetScreen,
+                          setEditMode,
+                          setSelectedOrganization,
                         );
                       },
                     ),
