@@ -22,6 +22,7 @@ import './screens/members/add_member_screen.dart';
 import './screens/organization_fee/organization_fee_detail_screen.dart';
 import './screens/organization_fee/edit_organization_fee_screen.dart';
 import './screens/members/edit_member_screen.dart';
+import './screens/organizations/edit_organization_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -152,6 +153,8 @@ class MyApp extends StatelessWidget {
               EditOrganizationFeeScreen.routeName: (ctx) =>
                   EditOrganizationFeeScreen(),
               EditMemberScreen.routeName: (ctx) => EditMemberScreen(),
+              EditOrganizationScreen.routeName: (ctx) =>
+                  EditOrganizationScreen(),
             },
           );
         },

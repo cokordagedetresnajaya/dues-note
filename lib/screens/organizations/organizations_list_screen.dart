@@ -5,6 +5,7 @@ import '../../providers/organizations.dart';
 import '../../providers/auth.dart';
 import '../../models/organization.dart';
 import './create_organization_screen.dart';
+import './edit_organization_screen.dart';
 import '../../widgets/organizations/organization_item.dart';
 import '../../widgets/utils/empty_data.dart';
 import '../../widgets/utils/search_not_found.dart';
@@ -85,18 +86,11 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
       _isSearching = false;
       _searchResult = _userOrganizations;
     });
-  }
 
-  void setEditMode(bool value) {
-    setState(() {
-      _isEditMode = value;
-    });
-  }
-
-  void setSelectedOrganization(String id) {
-    setState(() {
-      _selectedOrganizationId = id;
-    });
+    Provider.of<Organizations>(
+      context,
+      listen: false,
+    ).selectedOrganization = null;
   }
 
   Future<void> deleteOrganization() async {
@@ -116,6 +110,9 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
         _isEditMode = false;
         _isLoading = false;
       });
+
+      Provider.of<Organizations>(context, listen: false).selectedOrganization =
+          null;
     } catch (e) {
       setState(() {
         _isEditMode = false;
@@ -139,6 +136,8 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
   @override
   Widget build(BuildContext context) {
     _userOrganizations = Provider.of<Organizations>(context).items;
+    _selectedOrganizationId =
+        Provider.of<Organizations>(context).selectedOrganization;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -178,13 +177,24 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
             ? []
             : _isSearching
                 ? []
-                : _isEditMode
+                : _selectedOrganizationId != null
                     ? [
                         IconButton(
                           icon: const Icon(Icons.edit_note_sharp),
                           color: AppColors.primary,
                           onPressed: () {
-                            print('Hello');
+                            Navigator.of(context)
+                                .pushNamed(
+                                  EditOrganizationScreen.routeName,
+                                  arguments: _selectedOrganizationId,
+                                )
+                                .then(
+                                  (value) => {
+                                    Provider.of<Organizations>(context,
+                                            listen: false)
+                                        .selectedOrganization = null
+                                  },
+                                );
                           },
                         ),
                         IconButton(
@@ -269,8 +279,6 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
                               _searchResult[i].category,
                               _searchResult[i].numberOfMembers,
                               resetScreen,
-                              setEditMode,
-                              setSelectedOrganization,
                             );
                           },
                         ))
@@ -283,8 +291,6 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
                           _userOrganizations[i].category,
                           _userOrganizations[i].numberOfMembers,
                           resetScreen,
-                          setEditMode,
-                          setSelectedOrganization,
                         );
                       },
                     ),

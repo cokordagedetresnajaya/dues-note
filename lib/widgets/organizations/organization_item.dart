@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/organization_categories.dart';
+import '../../providers/organizations.dart';
 import '../../screens/cashflow_overview_screen.dart';
 import '../../configs/colors.dart';
 
@@ -10,8 +11,6 @@ class OrganizationItem extends StatefulWidget {
   final String categoryId;
   final int members;
   final Function resetScreen;
-  final Function setEditMode;
-  final Function selectOrganization;
 
   OrganizationItem(
     this.id,
@@ -19,8 +18,6 @@ class OrganizationItem extends StatefulWidget {
     this.categoryId,
     this.members,
     this.resetScreen,
-    this.setEditMode,
-    this.selectOrganization,
   );
 
   @override
@@ -28,7 +25,6 @@ class OrganizationItem extends StatefulWidget {
 }
 
 class _OrganizationItemState extends State<OrganizationItem> {
-  bool _isCheck = false;
   @override
   Widget build(BuildContext context) {
     final category = Provider.of<OrganizationCategories>(
@@ -36,14 +32,17 @@ class _OrganizationItemState extends State<OrganizationItem> {
       listen: false,
     ).findById(widget.categoryId);
 
+    bool _isCheck =
+        Provider.of<Organizations>(context).selectedOrganization == widget.id;
+
     return InkWell(
       splashColor: AppColors.gray,
       onTap: _isCheck
           ? () {
-              setState(() {
-                _isCheck = false;
-              });
-              widget.setEditMode(false);
+              Provider.of<Organizations>(
+                context,
+                listen: false,
+              ).selectedOrganization = null;
             }
           : () {
               Navigator.of(context)
@@ -56,11 +55,10 @@ class _OrganizationItemState extends State<OrganizationItem> {
               });
             },
       onLongPress: () {
-        widget.setEditMode(true);
-        widget.selectOrganization(widget.id);
-        setState(() {
-          _isCheck = true;
-        });
+        Provider.of<Organizations>(
+          context,
+          listen: false,
+        ).selectedOrganization = widget.id;
       },
       child: ListTile(
         leading: CircleAvatar(
