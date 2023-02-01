@@ -22,6 +22,17 @@ class Organizations with ChangeNotifier {
     _items = [];
   }
 
+  String? _selectedOrganization;
+
+  set selectedOrganization(String? id) {
+    _selectedOrganization = id;
+    notifyListeners();
+  }
+
+  String? get selectedOrganization {
+    return _selectedOrganization;
+  }
+
   List<Organization> getItemsByUserId(String userId) {
     return _items.where((item) => item.userId == userId).toList();
   }
@@ -57,6 +68,7 @@ class Organizations with ChangeNotifier {
           name: value['name'],
           category: value['category'],
           userId: value['userId'],
+          description: value['description'],
         );
         tempOrganization.numberOfMembers = value['numberOfMembers'];
         loadedOrganization.add(tempOrganization);
@@ -159,5 +171,34 @@ class Organizations with ChangeNotifier {
       throw HttpException('Could not deleted organization');
     }
     organization = null;
+  }
+
+  Future<void> updateOrganization(Organization organization) async {
+    final url = Uri.https(
+      Core.firebaseBaseUrl,
+      '/organizations/${organization.id}.json',
+      {'auth': '$authToken'},
+    );
+
+    try {
+      final response = await http.patch(
+        url,
+        body: json.encode(
+          {
+            'name': organization.name,
+            'category': organization.category,
+            'description': organization.description,
+          },
+        ),
+      );
+
+      final index =
+          _items.indexWhere((element) => element.id == organization.id);
+
+      _items[index] = organization;
+      notifyListeners();
+    } catch (e) {
+      throw e;
+    }
   }
 }
