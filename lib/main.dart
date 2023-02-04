@@ -23,6 +23,7 @@ import './screens/organization_fee/organization_fee_detail_screen.dart';
 import './screens/organization_fee/edit_organization_fee_screen.dart';
 import './screens/members/edit_member_screen.dart';
 import './screens/organizations/edit_organization_screen.dart';
+import './screens/auth/reset_password_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -155,6 +156,7 @@ class MyApp extends StatelessWidget {
               EditMemberScreen.routeName: (ctx) => EditMemberScreen(),
               EditOrganizationScreen.routeName: (ctx) =>
                   EditOrganizationScreen(),
+              ResetPasswordScreen.routeName: (ctx) => ResetPasswordScreen(),
             },
           );
         },

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../providers/auth.dart';
 import '../../models/http_exception.dart';
 import './register_screen.dart';
+import './reset_password_screen.dart';
 import '../../widgets/utils/vertical_space_20.dart';
 import '../../widgets/utils/vertical_space_10.dart';
 import '../../widgets/alerts/single_button_alert.dart';
@@ -247,21 +248,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const VerticalSpace10(),
-                // const Align(
-                //   alignment: Alignment.centerRight,
-                //   child: Text(
-                //     'Forget password?',
-                //     style: TextStyle(
-                //         color: Color.fromRGBO(
-                //           254,
-                //           192,
-                //           48,
-                //           1,
-                //         ),
-                //         fontSize: 14),
-                //     textAlign: TextAlign.left,
-                //   ),
-                // ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(
+                        context,
+                      ).pushNamed(
+                        ResetPasswordScreen.routeName,
+                      );
+                    },
+                    child: const Text(
+                      'Forget password?',
+                      style: TextStyle(
+                        color: AppColors.secondaryLight,
+                        fontSize: 14,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
                 const VerticalSpace10(),
                 Container(
                   width: double.infinity,
