@@ -184,6 +184,22 @@ class _EditOrganizationFeeScreenState extends State<EditOrganizationFeeScreen> {
                                   initialDate: _formValue.startDate,
                                   firstDate: DateTime(1900),
                                   lastDate: _formValue.endDate,
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: Theme.of(context).copyWith(
+                                        colorScheme: const ColorScheme.light(
+                                          primary: AppColors.primary,
+                                          onPrimary: AppColors.background,
+                                        ),
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                            primary: AppColors.secondaryLight, // button text color
+                                          ),
+                                        ),
+                                      ),
+                                      child: child!,
+                                    )
+                                  }
                                 );
 
                                 if (newStartDate == null) return;
@@ -219,6 +235,22 @@ class _EditOrganizationFeeScreenState extends State<EditOrganizationFeeScreen> {
                                   initialDate: _formValue.endDate,
                                   firstDate: _formValue.startDate,
                                   lastDate: DateTime(2500),
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: Theme.of(context).copyWith(
+                                        colorScheme: const ColorScheme.light(
+                                          primary: AppColors.primary,
+                                          onPrimary: AppColors.background,
+                                        ),
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                            primary: AppColors.secondaryLight, // button text color
+                                          ),
+                                        ),
+                                      ),
+                                      child: child!,
+                                    )
+                                  }
                                 );
 
                                 if (newLastDate == null) return;

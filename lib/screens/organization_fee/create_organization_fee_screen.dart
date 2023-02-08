@@ -114,6 +114,22 @@ class _CreateOrganizationFeeScreenState
                             initialDate: _firstDate,
                             firstDate: DateTime(1900),
                             lastDate: _lastDate,
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: const ColorScheme.light(
+                                    primary: AppColors.primary,
+                                    onPrimary: AppColors.background,
+                                  ),
+                                  textButtonTheme: TextButtonThemeData(
+                                    style: TextButton.styleFrom(
+                                      primary: AppColors.secondaryLight, // button text color
+                                    ),
+                                  ),
+                                ),
+                                child: child!,
+                              )
+                            }
                           );
 
                           if (newStartDate == null) return;
@@ -142,6 +158,22 @@ class _CreateOrganizationFeeScreenState
                             initialDate: _lastDate,
                             firstDate: _firstDate,
                             lastDate: DateTime(2500),
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: const ColorScheme.light(
+                                    primary: AppColors.primary,
+                                    onPrimary: AppColors.background,
+                                  ),
+                                  textButtonTheme: TextButtonThemeData(
+                                    style: TextButton.styleFrom(
+                                      primary: AppColors.secondaryLight, // button text color
+                                    ),
+                                  ),
+                                ),
+                                child: child!,
+                              )
+                            }
                           );
 
                           if (newLastDate == null) return;

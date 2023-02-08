@@ -491,6 +491,22 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                                             initialDate: startDate,
                                             firstDate: DateTime(1900),
                                             lastDate: endDate,
+                                            builder: (context, child) {
+                                              return Theme(
+                                                data: Theme.of(context).copyWith(
+                                                  colorScheme: const ColorScheme.light(
+                                                    primary: AppColors.primary,
+                                                    onPrimary: AppColors.background,
+                                                  ),
+                                                  textButtonTheme: TextButtonThemeData(
+                                                    style: TextButton.styleFrom(
+                                                      primary: AppColors.secondaryLight, // button text color
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: child!,
+                                              )
+                                            }
                                           );
 
                                           if (newDate != null) {
@@ -529,6 +545,22 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                                             initialDate: endDate,
                                             firstDate: startDate,
                                             lastDate: DateTime(2500),
+                                            builder: (context, child) {
+                                              return Theme(
+                                                data: Theme.of(context).copyWith(
+                                                  colorScheme: const ColorScheme.light(
+                                                    primary: AppColors.primary,
+                                                    onPrimary: AppColors.background,
+                                                  ),
+                                                  textButtonTheme: TextButtonThemeData(
+                                                    style: TextButton.styleFrom(
+                                                      primary: AppColors.secondaryLight, // button text color
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: child!,
+                                              )
+                                            }
                                           );
 
                                           if (newDate != null) {

@@ -252,6 +252,22 @@ class _CreateTransactionScreenState extends State<CreateTransactionScreen> {
                             initialDate: _transactionDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now(),
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: const ColorScheme.light(
+                                    primary: AppColors.primary,
+                                    onPrimary: AppColors.background,
+                                  ),
+                                  textButtonTheme: TextButtonThemeData(
+                                    style: TextButton.styleFrom(
+                                      primary: AppColors.secondaryLight, // button text color
+                                    ),
+                                  ),
+                                ),
+                                child: child!,
+                              )
+                            }
                           );
 
                           if (_newDate == null) return;
