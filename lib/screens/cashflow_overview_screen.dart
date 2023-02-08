@@ -91,6 +91,18 @@ class _CashFlowOverviewState extends State<CashFlowOverviewScreen> {
     );
   }
 
+  Future<void> _refreshData() async {
+    await Provider.of<Transactions>(
+      context,
+      listen: false,
+    ).fetchAndSetTransaction(_organizationId);
+
+    await Provider.of<OrganizationFees>(
+      context,
+      listen: false,
+    ).fetchAndSetOrganizationFees(_organizationId);
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> _cashflowDetail =
@@ -123,169 +135,175 @@ class _CashFlowOverviewState extends State<CashFlowOverviewScreen> {
                   left: 32,
                   right: 32,
                 ),
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      bottom: 16,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Total Balance',
-                          style: Theme.of(context).textTheme.titleMedium,
-                          textAlign: TextAlign.left,
-                        ),
-                        Text(
-                          'Rp. ${NumberFormat.currency(locale: 'it', decimalDigits: 0, symbol: '').format(Provider.of<Transactions>(context).getBalance())}',
-                          style: const TextStyle(
-                            color: AppColors.secondaryLight,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                child: RefreshIndicator(
+                  onRefresh: _refreshData,
+                  color: AppColors.primary,
+                  displacement: 20,
+                  strokeWidth: 2,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                        bottom: 16,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total Balance',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.left,
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                        const VerticalSpace20(),
-                        Row(
-                          children: _cashflowDetail.reversed
-                              .map(
-                                (element) => CashFlowBar(
-                                  barText: months[element['month'] - 1],
-                                  income: element['income'].toDouble(),
-                                  expenses: element['expenses'].toDouble(),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                        const VerticalSpace20(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 20,
-                                    height: 10,
-                                    color: AppColors.secondaryLight,
-                                    margin: const EdgeInsets.only(
-                                      right: 16,
-                                    ),
+                          Text(
+                            'Rp. ${NumberFormat.currency(locale: 'it', decimalDigits: 0, symbol: '').format(Provider.of<Transactions>(context).getBalance())}',
+                            style: const TextStyle(
+                              color: AppColors.secondaryLight,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          const VerticalSpace20(),
+                          Row(
+                            children: _cashflowDetail.reversed
+                                .map(
+                                  (element) => CashFlowBar(
+                                    barText: months[element['month'] - 1],
+                                    income: element['income'].toDouble(),
+                                    expenses: element['expenses'].toDouble(),
                                   ),
-                                  Text(
-                                    'INCOME',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 20,
-                                    height: 10,
-                                    color: AppColors.secondaryDark,
-                                    margin: const EdgeInsets.only(
-                                      right: 16,
+                                )
+                                .toList(),
+                          ),
+                          const VerticalSpace20(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 20,
+                                      height: 10,
+                                      color: AppColors.secondaryLight,
+                                      margin: const EdgeInsets.only(
+                                        right: 16,
+                                      ),
                                     ),
+                                    Text(
+                                      'INCOME',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 20,
+                                      height: 10,
+                                      color: AppColors.secondaryDark,
+                                      margin: const EdgeInsets.only(
+                                        right: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      'EXPENSES',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          const VerticalSpace20(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Active Dues',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    OrganizationFeeListScreen.routeName,
+                                    arguments: _organizationId,
+                                  );
+                                },
+                                child: const Text(
+                                  'View all',
+                                  style: TextStyle(
+                                    fontSize: 14,
                                   ),
-                                  Text(
-                                    'EXPENSES',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        const VerticalSpace20(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Active Dues',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  OrganizationFeeListScreen.routeName,
-                                  arguments: _organizationId,
-                                );
-                              },
-                              child: const Text(
-                                'View all',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        const VerticalSpace10(),
-                        activeDues == null
-                            ? EmptyCashflowData(
-                                'You don\'t have any dues yet',
-                                'Create Dues',
-                                CreateOrganizationFeeScreen.routeName,
-                                _organizationId,
-                              )
-                            : CashflowActiveDuesItem(activeDues),
-                        const VerticalSpace20(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Latest Transactions',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            InkWell(
-                              splashColor: AppColors.gray,
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  TransactionListScreen.routeName,
-                                  arguments: _organizationId,
-                                );
-                              },
-                              child: const Text(
-                                'View all',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        const VerticalSpace10(),
-                        _latestTransactions.isEmpty
-                            ? EmptyCashflowData(
-                                'You don’t have any transactions yet',
-                                'Add Transaction',
-                                CreateTransactionScreen.routeName,
-                                _organizationId,
-                              )
-                            : Container(
-                                child: Column(
-                                  children: _latestTransactions
-                                      .map(
-                                        (element) => TransactionItem(
-                                          element.id,
-                                          element.title,
-                                          '${DateFormat.EEEE().format(element.date)}, ${DateFormat.d().format(element.date)} ${DateFormat.MMMM().format(element.date)} ${DateFormat.y().format(element.date)}',
-                                          element.amount,
-                                          element.type,
-                                          element.duesId,
-                                        ),
-                                      )
-                                      .toList(),
                                 ),
                               )
-                      ],
+                            ],
+                          ),
+                          const VerticalSpace10(),
+                          activeDues == null
+                              ? EmptyCashflowData(
+                                  'You don\'t have any dues yet',
+                                  'Create Dues',
+                                  CreateOrganizationFeeScreen.routeName,
+                                  _organizationId,
+                                )
+                              : CashflowActiveDuesItem(activeDues),
+                          const VerticalSpace20(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Latest Transactions',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              InkWell(
+                                splashColor: AppColors.gray,
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    TransactionListScreen.routeName,
+                                    arguments: _organizationId,
+                                  );
+                                },
+                                child: const Text(
+                                  'View all',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          const VerticalSpace10(),
+                          _latestTransactions.isEmpty
+                              ? EmptyCashflowData(
+                                  'You don’t have any transactions yet',
+                                  'Add Transaction',
+                                  CreateTransactionScreen.routeName,
+                                  _organizationId,
+                                )
+                              : Container(
+                                  child: Column(
+                                    children: _latestTransactions
+                                        .map(
+                                          (element) => TransactionItem(
+                                            element.id,
+                                            element.title,
+                                            '${DateFormat.EEEE().format(element.date)}, ${DateFormat.d().format(element.date)} ${DateFormat.MMMM().format(element.date)} ${DateFormat.y().format(element.date)}',
+                                            element.amount,
+                                            element.type,
+                                            element.duesId,
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                )
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -163,8 +163,6 @@ class Transactions with ChangeNotifier {
         ),
       );
 
-      print(createdAt);
-
       final newTransaction = Transaction(
         title: transaction.title,
         amount: transaction.amount,

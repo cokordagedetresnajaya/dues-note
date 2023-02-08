@@ -301,6 +301,13 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
     return filteredTransaction;
   }
 
+  Future<void> _refreshData() async {
+    await Provider.of<Transactions>(
+      context,
+      listen: false,
+    ).fetchAndSetTransaction(organizationId);
+  }
+
   @override
   Widget build(BuildContext context) {
     transactions = Provider.of<Transactions>(context).items;
@@ -601,41 +608,70 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                 vertical: 0,
               ),
               child: transactions.isEmpty
-                  ? EmptyData('You don\'t have any transaction')
+                  ? RefreshIndicator(
+                      onRefresh: _refreshData,
+                      color: AppColors.primary,
+                      strokeWidth: 2,
+                      displacement: 20,
+                      child: Stack(
+                        children: [
+                          ListView(),
+                          EmptyData('You don\'t have any transaction')
+                        ],
+                      ),
+                    )
                   : _isFiltered && _filteredTransaction.isEmpty
                       ? SearchNotFound('No transactions found')
-                      : StickyGroupedListView(
-                          elements:
-                              _isFiltered ? _filteredTransaction : transactions,
-                          groupBy: (dynamic element) => element.date,
-                          groupSeparatorBuilder: (dynamic element) => Text(
-                            DateFormat.EEEE().format(element.date) +
-                                ', ' +
-                                DateFormat.d().format(element.date) +
-                                ' ' +
-                                DateFormat.MMMM().format(element.date) +
-                                ' ' +
-                                DateFormat.y().format(element.date),
-                            style: Theme.of(context).textTheme.titleMedium,
+                      : RefreshIndicator(
+                          onRefresh: _refreshData,
+                          color: AppColors.primary,
+                          strokeWidth: 2,
+                          displacement: 20,
+                          child: Stack(
+                            children: [
+                              ListView(),
+                              Container(
+                                padding: const EdgeInsets.only(top: 16),
+                                child: StickyGroupedListView(
+                                  elements: _isFiltered
+                                      ? _filteredTransaction
+                                      : transactions,
+                                  groupBy: (dynamic element) => element.date,
+                                  groupSeparatorBuilder: (dynamic element) =>
+                                      Text(
+                                    DateFormat.EEEE().format(element.date) +
+                                        ', ' +
+                                        DateFormat.d().format(element.date) +
+                                        ' ' +
+                                        DateFormat.MMMM().format(element.date) +
+                                        ' ' +
+                                        DateFormat.y().format(element.date),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  itemBuilder: (context, dynamic element) =>
+                                      BottomBorderTransactionItem(
+                                    element.id,
+                                    element.title,
+                                    element.amount,
+                                    element.type,
+                                    element.paymentType,
+                                    element.duesId,
+                                    setIsDeleteMode,
+                                    getDeleteMode,
+                                    getSelectedItem,
+                                    setSelectedItem,
+                                    removeSelectedItem,
+                                    resetFilter,
+                                    resetDeleteMode,
+                                  ),
+                                  stickyHeaderBackgroundColor:
+                                      AppColors.background,
+                                  order: StickyGroupedListOrder.DESC,
+                                ),
+                              ),
+                            ],
                           ),
-                          itemBuilder: (context, dynamic element) =>
-                              BottomBorderTransactionItem(
-                            element.id,
-                            element.title,
-                            element.amount,
-                            element.type,
-                            element.paymentType,
-                            element.duesId,
-                            setIsDeleteMode,
-                            getDeleteMode,
-                            getSelectedItem,
-                            setSelectedItem,
-                            removeSelectedItem,
-                            resetFilter,
-                            resetDeleteMode,
-                          ),
-                          stickyHeaderBackgroundColor: AppColors.background,
-                          order: StickyGroupedListOrder.DESC,
                         ),
             ),
     );

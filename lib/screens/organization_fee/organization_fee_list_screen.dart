@@ -188,6 +188,13 @@ class _OrganizationFeeListScreenState extends State<OrganizationFeeListScreen> {
     }
   }
 
+  Future<void> _refreshData() async {
+    await Provider.of<OrganizationFees>(
+      context,
+      listen: false,
+    ).fetchAndSetOrganizationFees(organizationId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,29 +238,35 @@ class _OrganizationFeeListScreenState extends State<OrganizationFeeListScreen> {
       ),
       body: _isLoading
           ? LoadingPage()
-          : Consumer<OrganizationFees>(
-              builder: (context, organizationFees, _) =>
-                  organizationFees.items.isEmpty
-                      ? EmptyData('You don\'t have any dues')
-                      : Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 16,
-                          ),
-                          width: double.infinity,
-                          child: ListView.builder(
-                            itemBuilder: (context, index) =>
-                                OrganizationFeeListItem(
-                              organizationFees.items.reversed.toList()[index],
-                              isDeleteMode,
-                              setDeleteMode,
-                              setSelectedOrganizationFee,
-                              clearSelectedOrganizationFee,
-                              getSelectedOrganizationFee,
+          : RefreshIndicator(
+              onRefresh: _refreshData,
+              color: AppColors.primary,
+              strokeWidth: 2,
+              displacement: 20,
+              child: Consumer<OrganizationFees>(
+                builder: (context, organizationFees, _) =>
+                    organizationFees.items.isEmpty
+                        ? EmptyData('You don\'t have any dues')
+                        : Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 16,
                             ),
-                            itemCount: organizationFees.items.length,
+                            width: double.infinity,
+                            child: ListView.builder(
+                              itemBuilder: (context, index) =>
+                                  OrganizationFeeListItem(
+                                organizationFees.items.reversed.toList()[index],
+                                isDeleteMode,
+                                setDeleteMode,
+                                setSelectedOrganizationFee,
+                                clearSelectedOrganizationFee,
+                                getSelectedOrganizationFee,
+                              ),
+                              itemCount: organizationFees.items.length,
+                            ),
                           ),
-                        ),
+              ),
             ),
     );
   }

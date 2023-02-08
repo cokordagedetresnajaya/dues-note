@@ -71,8 +71,15 @@ class OrganizationFees with ChangeNotifier {
     final organizationFeeIndex =
         _items.indexWhere((element) => element.isActive == true);
     if (organizationFeeIndex == -1) {
+      print('not found active fee');
+      _items.forEach((element) {
+        print(element.title);
+      });
       return null;
     } else {
+      _items.forEach((element) {
+        print(element.title);
+      });
       return _items.elementAt(organizationFeeIndex);
     }
   }

@@ -246,6 +246,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: AppColors.background,
         centerTitle: true,
