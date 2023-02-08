@@ -158,6 +158,195 @@ class MyApp extends StatelessWidget {
                   EditOrganizationScreen(),
               ResetPasswordScreen.routeName: (ctx) => ResetPasswordScreen(),
             },
+            onGenerateRoute: (settings) {
+              print(settings.name);
+              if (settings.name == '/organization-list') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => OrganizationsListScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/create-organization') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => CreateOrganizationScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/cashflow-overview') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => CashFlowOverviewScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/transaction-list') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => TransactionListScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/register') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => RegisterScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/login') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => LoginScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/create-transaction') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => CreateTransactionScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/transaction-detail') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => TransactionDetailScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/edit-transaction') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => EditTransactionScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/dues-list') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => OrganizationFeeListScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/create-dues') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => CreateOrganizationFeeScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/add-members') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => AddMemberScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/dues-detail') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => OrganizationFeeDetailScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/edit-dues') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => EditOrganizationFeeScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/edit-member') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => EditMemberScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/edit-organization') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => EditOrganizationScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+
+              if (settings.name == '/reset-password-screen') {
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => ResetPasswordScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                );
+              }
+            },
           );
         },
       ),

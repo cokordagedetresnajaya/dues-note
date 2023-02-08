@@ -96,6 +96,7 @@ class _CreateOrganizationScreenState extends State<CreateOrganizationScreen> {
         backgroundColor: AppColors.background,
         elevation: Theme.of(context).appBarTheme.elevation,
       ),
+      backgroundColor: AppColors.background,
       body: _isLoading
           ? LoadingPage()
           : Padding(
