@@ -229,6 +229,22 @@ class _TransactionFilterState extends State<TransactionFilter> {
                                   firstDate:
                                     DateTime(1900),
                                   lastDate: widget.initialEndDate!,
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: Theme.of(context).copyWith(
+                                        colorScheme: const ColorScheme.light(
+                                          primary: AppColors.primary,
+                                          onPrimary: AppColors.background,
+                                        ),
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                            primary: AppColors.secondaryLight, // button text color
+                                          ),
+                                        ),
+                                      ),
+                                      child: child!,
+                                    )
+                                  }
                                 );
 
                                 if (newStartDate == null)
@@ -260,6 +276,22 @@ class _TransactionFilterState extends State<TransactionFilter> {
                                   initialDate: widget.initialEndDate!,
                                   firstDate: widget.initialStartDate!
                                   lastDate:DateTime.now(),
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: Theme.of(context).copyWith(
+                                        colorScheme: const ColorScheme.light(
+                                          primary: AppColors.primary,
+                                          onPrimary: AppColors.background,
+                                        ),
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                            primary: AppColors.secondaryLight, // button text color
+                                          ),
+                                        ),
+                                      ),
+                                      child: child!,
+                                    )
+                                  }
                                 );
 
                                 if (newEndDate == null)
