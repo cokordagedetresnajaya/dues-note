@@ -81,6 +81,13 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
     }
   }
 
+  Future<void> _refreshData() async {
+    await Provider.of<Organizations>(
+      context,
+      listen: false,
+    ).fetchAndSetOrganization();
+  }
+
   void resetScreen() {
     setState(() {
       _isSearching = false;
@@ -282,17 +289,23 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
                             );
                           },
                         ))
-                  : ListView.builder(
-                      itemCount: _userOrganizations.length,
-                      itemBuilder: (ctx, i) {
-                        return OrganizationItem(
-                          _userOrganizations[i].id,
-                          _userOrganizations[i].name,
-                          _userOrganizations[i].category,
-                          _userOrganizations[i].numberOfMembers,
-                          resetScreen,
-                        );
-                      },
+                  : RefreshIndicator(
+                      onRefresh: _refreshData,
+                      color: AppColors.primary,
+                      strokeWidth: 2,
+                      displacement: 20,
+                      child: ListView.builder(
+                        itemCount: _userOrganizations.length,
+                        itemBuilder: (ctx, i) {
+                          return OrganizationItem(
+                            _userOrganizations[i].id,
+                            _userOrganizations[i].name,
+                            _userOrganizations[i].category,
+                            _userOrganizations[i].numberOfMembers,
+                            resetScreen,
+                          );
+                        },
+                      ),
                     ),
       floatingActionButton: _isLoading
           ? null
