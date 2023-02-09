@@ -252,10 +252,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(
+                      Navigator.push(
                         context,
-                      ).pushNamed(
-                        ResetPasswordScreen.routeName,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => ResetPasswordScreen(),
+                          transitionsBuilder: (_, a, __, c) => FadeTransition(
+                            opacity: a,
+                            child: c,
+                          ),
+                        ),
                       );
                     },
                     child: const Text(
@@ -377,9 +382,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.of(
+                        Navigator.pushReplacement(
                           context,
-                        ).pushReplacementNamed(RegisterScreen.routeName);
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => RegisterScreen(),
+                            transitionsBuilder: (_, a, __, c) => FadeTransition(
+                              opacity: a,
+                              child: c,
+                            ),
+                          ),
+                        );
                       },
                       child: const Text(
                         'Sign up',

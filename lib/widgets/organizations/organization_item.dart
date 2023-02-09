@@ -45,12 +45,19 @@ class _OrganizationItemState extends State<OrganizationItem> {
               ).selectedOrganization = null;
             }
           : () {
-              Navigator.of(context)
-                  .pushNamed(
-                CashFlowOverviewScreen.routeName,
-                arguments: widget.id,
-              )
-                  .then((value) {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => CashFlowOverviewScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                  settings: RouteSettings(
+                    arguments: widget.id,
+                  ),
+                ),
+              ).then((value) {
                 return widget.resetScreen();
               });
             },

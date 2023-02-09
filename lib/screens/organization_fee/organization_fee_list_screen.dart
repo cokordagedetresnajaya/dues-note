@@ -225,9 +225,19 @@ class _OrganizationFeeListScreenState extends State<OrganizationFeeListScreen> {
                 : [
                     IconButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          CreateOrganizationFeeScreen.routeName,
-                          arguments: organizationId,
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                                CreateOrganizationFeeScreen(),
+                            transitionsBuilder: (_, a, __, c) => FadeTransition(
+                              opacity: a,
+                              child: c,
+                            ),
+                            settings: RouteSettings(
+                              arguments: organizationId,
+                            ),
+                          ),
                         );
                       },
                       icon: const Icon(

@@ -71,17 +71,22 @@ class _BottomBorderTransactionItemState
             widget.setDeleteMode(false);
           }
         } else {
-          Navigator.of(context)
-              .pushNamed(
-            TransactionDetailScreen.routeName,
-            arguments: widget.id,
-          )
-              .then(
-            (value) {
-              widget.resetFilter();
-              widget.resetDeleteMode();
-            },
-          );
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => TransactionDetailScreen(),
+              transitionsBuilder: (_, a, __, c) => FadeTransition(
+                opacity: a,
+                child: c,
+              ),
+              settings: RouteSettings(
+                arguments: widget.id,
+              ),
+            ),
+          ).then((value) {
+            widget.resetFilter();
+            widget.resetDeleteMode();
+          });
         }
       },
       onLongPress: () {

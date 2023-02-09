@@ -388,9 +388,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       width: 4,
                     ),
                     InkWell(
-                      onTap: () => Navigator.of(
+                      onTap: () => Navigator.pushReplacement(
                         context,
-                      ).pushReplacementNamed(LoginScreen.routeName),
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => LoginScreen(),
+                          transitionsBuilder: (_, a, __, c) => FadeTransition(
+                            opacity: a,
+                            child: c,
+                          ),
+                        ),
+                      ),
                       child: const Text(
                         'Sign in',
                         style: TextStyle(

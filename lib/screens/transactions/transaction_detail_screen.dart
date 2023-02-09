@@ -188,9 +188,19 @@ class TransactionDetailScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          EditTransactionScreen.routeName,
-                          arguments: transactionId,
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                                EditTransactionScreen(),
+                            transitionsBuilder: (_, a, __, c) => FadeTransition(
+                              opacity: a,
+                              child: c,
+                            ),
+                            settings: RouteSettings(
+                              arguments: transactionId,
+                            ),
+                          ),
                         );
                       },
                       child: const Text(

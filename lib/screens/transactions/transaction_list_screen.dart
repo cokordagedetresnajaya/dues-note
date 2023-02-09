@@ -622,10 +622,19 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                       color: AppColors.background,
                     ),
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(CreateTransactionScreen.routeName,
-                              arguments: organizationId)
-                          .then((value) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => CreateTransactionScreen(),
+                          transitionsBuilder: (_, a, __, c) => FadeTransition(
+                            opacity: a,
+                            child: c,
+                          ),
+                          settings: RouteSettings(
+                            arguments: organizationId,
+                          ),
+                        ),
+                      ).then((value) {
                         resetFilter();
                         resetDeleteMode();
                       });

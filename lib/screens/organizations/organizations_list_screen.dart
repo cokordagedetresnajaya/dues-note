@@ -190,18 +190,28 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
                           icon: const Icon(Icons.edit_note_sharp),
                           color: AppColors.primary,
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(
-                                  EditOrganizationScreen.routeName,
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (_, __, ___) =>
+                                    EditOrganizationScreen(),
+                                transitionsBuilder: (_, a, __, c) =>
+                                    FadeTransition(
+                                  opacity: a,
+                                  child: c,
+                                ),
+                                settings: RouteSettings(
                                   arguments: _selectedOrganizationId,
-                                )
-                                .then(
-                                  (value) => {
-                                    Provider.of<Organizations>(context,
-                                            listen: false)
-                                        .selectedOrganization = null
-                                  },
-                                );
+                                ),
+                              ),
+                            ).then(
+                              (value) => {
+                                Provider.of<Organizations>(
+                                  context,
+                                  listen: false,
+                                ).selectedOrganization = null
+                              },
+                            );
                           },
                         ),
                         IconButton(
@@ -311,11 +321,18 @@ class _OrganizationsListScreenState extends State<OrganizationsListScreen> {
           ? null
           : FloatingActionButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(CreateOrganizationScreen.routeName)
-                    .then(
-                      (value) => resetScreen(),
-                    );
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => CreateOrganizationScreen(),
+                    transitionsBuilder: (_, a, __, c) => FadeTransition(
+                      opacity: a,
+                      child: c,
+                    ),
+                  ),
+                ).then(
+                  (value) => resetScreen(),
+                );
               },
               backgroundColor: AppColors.primary,
               child: const Icon(Icons.add),
