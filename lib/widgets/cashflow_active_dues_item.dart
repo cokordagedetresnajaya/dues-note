@@ -20,9 +20,18 @@ class _CashflowActiveDuesItemState extends State<CashflowActiveDuesItem> {
     var screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          OrganizationFeeDetailScreen.routeName,
-          arguments: widget.organizationFee.id,
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => OrganizationFeeDetailScreen(),
+            transitionsBuilder: (_, a, __, c) => FadeTransition(
+              opacity: a,
+              child: c,
+            ),
+            settings: RouteSettings(
+              arguments: widget.organizationFee.id,
+            ),
+          ),
         );
       },
       behavior: HitTestBehavior.opaque,

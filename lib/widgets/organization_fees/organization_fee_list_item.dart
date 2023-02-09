@@ -42,12 +42,19 @@ class _OrganizationFeeListItemState extends State<OrganizationFeeListItem> {
               widget.clearSelectedOrganizationFee();
             }
           : () {
-              Navigator.of(context)
-                  .pushNamed(
-                OrganizationFeeDetailScreen.routeName,
-                arguments: widget.organizationFee.id,
-              )
-                  .then(
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => OrganizationFeeDetailScreen(),
+                  transitionsBuilder: (_, a, __, c) => FadeTransition(
+                    opacity: a,
+                    child: c,
+                  ),
+                  settings: RouteSettings(
+                    arguments: widget.organizationFee.id,
+                  ),
+                ),
+              ).then(
                 (_) {
                   widget.setDeleteMode(false);
                   widget.clearSelectedOrganizationFee();

@@ -43,9 +43,18 @@ class _CreateOrganizationFeeScreenState
     }
     _formKey.currentState!.save();
     FocusScope.of(context).unfocus();
-    Navigator.of(context).pushNamed(
-      AddMemberScreen.routeName,
-      arguments: _formValue,
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => AddMemberScreen(),
+        transitionsBuilder: (_, a, __, c) => FadeTransition(
+          opacity: a,
+          child: c,
+        ),
+        settings: RouteSettings(
+          arguments: _formValue,
+        ),
+      ),
     );
   }
 

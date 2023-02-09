@@ -230,9 +230,20 @@ class _CashFlowOverviewState extends State<CashFlowOverviewScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                    OrganizationFeeListScreen.routeName,
-                                    arguments: _organizationId,
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (_, __, ___) =>
+                                          OrganizationFeeListScreen(),
+                                      transitionsBuilder: (_, a, __, c) =>
+                                          FadeTransition(
+                                        opacity: a,
+                                        child: c,
+                                      ),
+                                      settings: RouteSettings(
+                                        arguments: _organizationId,
+                                      ),
+                                    ),
                                   );
                                 },
                                 child: const Text(
@@ -264,9 +275,20 @@ class _CashFlowOverviewState extends State<CashFlowOverviewScreen> {
                               InkWell(
                                 splashColor: AppColors.gray,
                                 onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                    TransactionListScreen.routeName,
-                                    arguments: _organizationId,
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (_, __, ___) =>
+                                          TransactionListScreen(),
+                                      transitionsBuilder: (_, a, __, c) =>
+                                          FadeTransition(
+                                        opacity: a,
+                                        child: c,
+                                      ),
+                                      settings: RouteSettings(
+                                        arguments: _organizationId,
+                                      ),
+                                    ),
                                   );
                                 },
                                 child: const Text(

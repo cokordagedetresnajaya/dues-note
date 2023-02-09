@@ -151,12 +151,20 @@ class _OrganizationFeeDetailScreenState
             : [
                 IconButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .pushNamed(
-                          EditOrganizationFeeScreen.routeName,
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) =>
+                            EditOrganizationFeeScreen(),
+                        transitionsBuilder: (_, a, __, c) => FadeTransition(
+                          opacity: a,
+                          child: c,
+                        ),
+                        settings: RouteSettings(
                           arguments: id,
-                        )
-                        .then((_) async {});
+                        ),
+                      ),
+                    );
                   },
                   icon: const Icon(
                     Icons.edit_note_sharp,
@@ -164,14 +172,19 @@ class _OrganizationFeeDetailScreenState
                 ),
                 IconButton(
                   onPressed: () {
-                    Navigator.of(
+                    Navigator.push(
                       context,
-                    )
-                        .pushNamed(
-                      EditMemberScreen.routeName,
-                      arguments: id,
-                    )
-                        .then((_) async {
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => EditMemberScreen(),
+                        transitionsBuilder: (_, a, __, c) => FadeTransition(
+                          opacity: a,
+                          child: c,
+                        ),
+                        settings: RouteSettings(
+                          arguments: id,
+                        ),
+                      ),
+                    ).then((_) async {
                       try {
                         await Provider.of<Transactions>(
                           context,

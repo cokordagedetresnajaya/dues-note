@@ -31,9 +31,18 @@ class TransactionItem extends StatelessWidget {
           ).getOrganizationFeeById(duesId).title;
 
     return InkWell(
-      onTap: () => Navigator.of(context).pushNamed(
-        TransactionDetailScreen.routeName,
-        arguments: id,
+      onTap: () => Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => TransactionDetailScreen(),
+          transitionsBuilder: (_, a, __, c) => FadeTransition(
+            opacity: a,
+            child: c,
+          ),
+          settings: RouteSettings(
+            arguments: id,
+          ),
+        ),
       ),
       child: Container(
         padding: const EdgeInsets.only(top: 8, bottom: 8),
