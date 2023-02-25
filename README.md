@@ -1,6 +1,6 @@
-# dues_note
+# Dues Note
 
-A new Flutter project.
+Dues Note is a mobile apps for recording organization or community member fees and transactions. This project created with flutter and use Firebase Realtime Database. In this project use Provider and Change Notifier State Management 
 
 ## Getting Started
 
