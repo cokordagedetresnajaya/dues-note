@@ -6,6 +6,6 @@ Dues Note is a mobile apps for recording organization or community member fees a
 
 #### 1. Clone the repo
 ```sh
-$ git clone https://github.com/cokordagedetresnajaya/dues-note.git
-$ cd dues-note
+git clone https://github.com/cokordagedetresnajaya/dues-note.git
+cd dues-note
 ```
