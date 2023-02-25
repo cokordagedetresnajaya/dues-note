@@ -14,6 +14,7 @@ cd dues-note
 flutter pub get
 ```
 #### 3. Setup Firebase Realtime Database
-* Step 1
-* Step 2
-* Step 3
+* Create Firebase Project
+* Setup Authentication
+* Setup Realtime Database
+* Set Api Key
