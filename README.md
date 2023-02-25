@@ -13,3 +13,7 @@ cd dues-note
 ```sh
 flutter pub get
 ```
+#### 3. Setup Firebase Realtime Database
+* Step 1
+* Step 2
+* Step 3
