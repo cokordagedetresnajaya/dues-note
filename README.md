@@ -9,3 +9,7 @@ Dues Note is a mobile apps for recording organization or community member fees a
 git clone https://github.com/cokordagedetresnajaya/dues-note.git
 cd dues-note
 ```
+#### 2. Install the packages
+```sh
+flutter pub get
+```
