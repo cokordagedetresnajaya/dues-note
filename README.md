@@ -13,9 +13,6 @@ cd dues-note
 ```sh
 flutter pub get
 ```
-#### 3. Setup Firebase Realtime Database
+#### 3. Setup Firebase Realtime Database and Firebase Authentication
 * Create Firebase Project
-<p>Click Add Project</p>
-<img src="https://user-images.githubusercontent.com/90399814/221388544-db1a9af4-c9da-41c0-9054-323f9598c7c8.png" alt="feed example" width="700">
-<p>Give Project Name</p>
-<img src="https://user-images.githubusercontent.com/90399814/221388778-dbcad3fa-adfd-4e3e-85e6-8b8cfb412283.png" alt="feed example" width="700">
+<p>To create new Firebase Project, you can create it <a target="_blank" href="https://console.firebase.google.com">here</a></p>
