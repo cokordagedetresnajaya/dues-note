@@ -15,7 +15,7 @@ flutter pub get
 ```
 #### 3. Setup Firebase Realtime Database
 * Create Firebase Project
-<img src="https://user-images.githubusercontent.com/90399814/221388544-db1a9af4-c9da-41c0-9054-323f9598c7c8.png" alt="feed example" width="250">
+<img src="https://user-images.githubusercontent.com/90399814/221388544-db1a9af4-c9da-41c0-9054-323f9598c7c8.png" alt="feed example" width="700">
 * Setup Authentication
 * Setup Realtime Database
 * Set Api Key
